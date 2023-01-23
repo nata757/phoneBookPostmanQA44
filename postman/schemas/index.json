@@ -1,0 +1,1740 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Phone book REST API",
+    "description": "This is project of students Tel-Ran.de college",
+    "contact": {
+      "name": "Tel-Ran.de",
+      "url": "https://www.tel-ran.de",
+      "email": "go@tel-ran.de"
+    },
+    "version": "2.0"
+  },
+  "servers": [
+    {
+      "url": "http://phonebook.telran-edu.de:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "security": [
+    {
+      "JWT": []
+    }
+  ],
+  "paths": {
+    "/api/user/password": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update password",
+        "description": "Updating the password. The recovery token is contained within the request body",
+        "operationId": "changePassword",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewPasswordDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/user/auth-password": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Updating the password of registered user",
+        "description": "Updating the password of registered user. \n\nUser data(needs user email) for updating is contained in the JWT",
+        "operationId": "changePasswordAuth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewPasswordAuthDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/phone": {
+      "put": {
+        "tags": [
+          "Phone"
+        ],
+        "summary": "Update phone",
+        "operationId": "editPhone",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PhoneDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Phone"
+        ],
+        "summary": "Add new phone",
+        "operationId": "addPhone",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddPhoneDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/my-contacts": {
+      "get": {
+        "tags": [
+          "My Contact"
+        ],
+        "summary": "Get list of contacts by authenticated user",
+        "operationId": "getAllContactsByAuthUser",
+        "parameters": [
+          {
+            "name": "Access-Token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MyContactDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "My Contact"
+        ],
+        "summary": "Update contact",
+        "operationId": "editContact",
+        "parameters": [
+          {
+            "name": "Access-Token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MyContactDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyContactDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "My Contact"
+        ],
+        "summary": "Add new contact",
+        "operationId": "addContact",
+        "parameters": [
+          {
+            "name": "Access-Token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMyContactDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyContactDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/email": {
+      "put": {
+        "tags": [
+          "Email"
+        ],
+        "summary": "Update email",
+        "operationId": "editEmail",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Email"
+        ],
+        "summary": "Add new email",
+        "operationId": "addEmail",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddEmailDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/contact": {
+      "get": {
+        "tags": [
+          "Contact"
+        ],
+        "summary": "Get list of contacts by authenticated user",
+        "operationId": "getAllContactsByAuthUser_1",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ContactDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Contact"
+        ],
+        "summary": "Update contact",
+        "operationId": "editContact_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Contact"
+        ],
+        "summary": "Add new contact",
+        "operationId": "addContact_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddContactDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/address": {
+      "put": {
+        "tags": [
+          "Address"
+        ],
+        "summary": "Update address",
+        "operationId": "editAddress",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddressDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Address"
+        ],
+        "summary": "Add new address",
+        "operationId": "addAddress",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddAddressDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/user": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get the data of the authenticated user",
+        "description": "Returns the data of the logged in user.\n\nUser data(needs user email) for updating is contained in the JWT",
+        "operationId": "getUser",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "New user registration",
+        "description": "An email will be sent with a link to activation to the address specified during registration. The link will contain an activation token\n\nEmail validation pattern: ^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,10}$",
+        "operationId": "addUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddUserDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/user/password/recovery": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Password recovery request",
+        "description": "Unauthorized user request for updating the password",
+        "operationId": "recoverPassword",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecoveryPasswordDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/user/token": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get JWT of test user",
+        "description": "This token will expire on 07 October 2036\n\nTest user email: test@gmail.com",
+        "operationId": "getTestUserToken",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/user/activation/{token}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Activate registered user",
+        "description": "As a parameter, you need to specify the token that was sent to the email of the registered user",
+        "operationId": "activateUser",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "description": "password recovery token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/phone/{id}": {
+      "get": {
+        "tags": [
+          "Phone"
+        ],
+        "summary": "Get phone by phone id",
+        "operationId": "getPhoneById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "phone id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhoneDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Phone"
+        ],
+        "summary": "Delete phone by phone id",
+        "operationId": "removePhoneById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "phone id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/phone/{contactId}/all": {
+      "get": {
+        "tags": [
+          "Phone"
+        ],
+        "summary": "Get list of phones by contact id",
+        "operationId": "getAllPhonesByAuthUser",
+        "parameters": [
+          {
+            "name": "contactId",
+            "in": "path",
+            "description": "contact id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PhoneDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/my-contacts/{id}": {
+      "get": {
+        "tags": [
+          "My Contact"
+        ],
+        "summary": "Get contact by contact id",
+        "operationId": "getContactById",
+        "parameters": [
+          {
+            "name": "Access-Token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "contact id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyContactDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "My Contact"
+        ],
+        "summary": "Delete contact by contact id",
+        "operationId": "removeContactById",
+        "parameters": [
+          {
+            "name": "Access-Token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "contact id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/email/{id}": {
+      "get": {
+        "tags": [
+          "Email"
+        ],
+        "summary": "Get email by email id",
+        "operationId": "getEmailById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "email id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Email"
+        ],
+        "summary": "Delete email by email id",
+        "operationId": "removeEmailById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "email id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/email/{contactId}/all": {
+      "get": {
+        "tags": [
+          "Email"
+        ],
+        "summary": "Get list of emails by contact id",
+        "operationId": "getAllEmailsByAuthUser",
+        "parameters": [
+          {
+            "name": "contactId",
+            "in": "path",
+            "description": "contact id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmailDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/contact/{id}": {
+      "get": {
+        "tags": [
+          "Contact"
+        ],
+        "summary": "Get contact by contact id",
+        "operationId": "getContactById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "contact id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Contact"
+        ],
+        "summary": "Delete contact by contact id",
+        "operationId": "removeContactById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "contact id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/contact/profile": {
+      "get": {
+        "tags": [
+          "Contact"
+        ],
+        "summary": "Get user profile",
+        "description": "Get the profile of the authorized user",
+        "operationId": "getProfile",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/address/{id}": {
+      "get": {
+        "tags": [
+          "Address"
+        ],
+        "summary": "Get address by address id",
+        "operationId": "getAddressById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "address id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddressDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Address"
+        ],
+        "summary": "Delete address by address id",
+        "operationId": "removeAddressById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "address id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/address/{contactId}/all": {
+      "get": {
+        "tags": [
+          "Address"
+        ],
+        "summary": "Get list of addresses by contact id",
+        "operationId": "getAllAddressesByAuthUser",
+        "parameters": [
+          {
+            "name": "contactId",
+            "in": "path",
+            "description": "contact id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AddressDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/my-contacts/all": {
+      "delete": {
+        "tags": [
+          "My Contact"
+        ],
+        "summary": "Delete all contact by authenticated user",
+        "operationId": "removeAllContactsById",
+        "parameters": [
+          {
+            "name": "Access-Token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "NewPasswordDto": {
+        "required": [
+          "password",
+          "token"
+        ],
+        "type": "object",
+        "properties": {
+          "password": {
+            "maxLength": 20,
+            "minLength": 8,
+            "type": "string",
+            "description": "The password is shorter than 20 or longer than 20",
+            "example": "valid_password"
+          },
+          "token": {
+            "maxLength": 100,
+            "minLength": 10,
+            "type": "string",
+            "description": "this token was sent, saved to the database and sent to the email inside the link when requesting to restore the password"
+          }
+        }
+      },
+      "NewPasswordAuthDto": {
+        "required": [
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "password": {
+            "maxLength": 20,
+            "minLength": 8,
+            "type": "string",
+            "description": "The password is shorter than 20 or longer than 20",
+            "example": "valid_password"
+          }
+        }
+      },
+      "PhoneDto": {
+        "required": [
+          "countryCode",
+          "phoneNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "example": 1
+          },
+          "countryCode": {
+            "type": "string",
+            "example": "+49"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "example": "017677788890"
+          },
+          "contactId": {
+            "type": "integer",
+            "format": "int32",
+            "example": 1
+          }
+        }
+      },
+      "MyContactDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "EmailDto": {
+        "required": [
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "example": 1
+          },
+          "email": {
+            "type": "string",
+            "description": "used validation pattern: ^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,10}$",
+            "example": "valid.email@email.com"
+          },
+          "contactId": {
+            "type": "integer",
+            "format": "int32",
+            "example": 1
+          }
+        }
+      },
+      "ContactDto": {
+        "required": [
+          "firstName"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "need for edit contact and for response",
+            "format": "int32",
+            "example": 1
+          },
+          "firstName": {
+            "type": "string",
+            "example": "Max"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Mustermann"
+          },
+          "description": {
+            "type": "string",
+            "example": "This is example contact"
+          }
+        }
+      },
+      "AddressDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "city": {
+            "type": "string",
+            "example": "Berlin"
+          },
+          "country": {
+            "type": "string",
+            "example": "Germany"
+          },
+          "street": {
+            "type": "string",
+            "example": "Friedrichstraße 176-179"
+          },
+          "zip": {
+            "type": "string",
+            "example": "10117"
+          },
+          "contactId": {
+            "type": "integer",
+            "format": "int32",
+            "example": 1
+          }
+        }
+      },
+      "AddUserDto": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "used validation pattern: ^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,10}$",
+            "example": "valid.email@email.com"
+          },
+          "password": {
+            "maxLength": 20,
+            "minLength": 8,
+            "type": "string",
+            "description": "The password is shorter than 20 or longer than 20",
+            "example": "valid_password"
+          }
+        },
+        "description": "user registration body"
+      },
+      "RecoveryPasswordDto": {
+        "required": [
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "used validation pattern: ^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,10}$",
+            "example": "valid.email@email.com"
+          }
+        }
+      },
+      "AddPhoneDto": {
+        "required": [
+          "countryCode",
+          "phoneNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "countryCode": {
+            "type": "string",
+            "example": "+49"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "example": "017677788890"
+          },
+          "contactId": {
+            "type": "integer",
+            "format": "int32",
+            "example": 1
+          }
+        }
+      },
+      "AddMyContactDto": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "example": "Max"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Mustermann"
+          },
+          "description": {
+            "type": "string",
+            "example": "This is an example of a contact"
+          },
+          "address": {
+            "type": "string",
+            "example": "Berlin, 10117, Friedrichstraße 176-179"
+          },
+          "phone": {
+            "type": "string",
+            "example": "017677788890"
+          },
+          "email": {
+            "type": "string",
+            "example": "max.mustermann@gamil.mock"
+          }
+        }
+      },
+      "AddEmailDto": {
+        "required": [
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "used validation pattern: ^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,10}$",
+            "example": "valid.email@gamil.mock"
+          },
+          "contactId": {
+            "type": "integer",
+            "format": "int32",
+            "example": 1
+          }
+        }
+      },
+      "AddContactDto": {
+        "required": [
+          "firstName"
+        ],
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "example": "Max"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Mustermann"
+          },
+          "description": {
+            "type": "string",
+            "example": "This is an example of a contact"
+          }
+        }
+      },
+      "AddAddressDto": {
+        "type": "object",
+        "properties": {
+          "city": {
+            "type": "string",
+            "example": "Berlin"
+          },
+          "country": {
+            "type": "string",
+            "example": "Germany"
+          },
+          "street": {
+            "type": "string",
+            "example": "Friedrichstraße 176-179"
+          },
+          "zip": {
+            "type": "string",
+            "example": "10117"
+          },
+          "contactId": {
+            "type": "integer",
+            "format": "int32",
+            "example": 1
+          }
+        }
+      },
+      "UserDto": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "used validation pattern: ^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,10}$",
+            "example": "valid.email@email.com"
+          },
+          "password": {
+            "maxLength": 20,
+            "minLength": 8,
+            "type": "string",
+            "description": "The password is shorter than 20 or longer than 20",
+            "example": "valid_password"
+          },
+          "roles": {
+            "type": "array",
+            "description": "ROLE_USER",
+            "example": "ROLE_USER",
+            "items": {
+              "type": "string",
+              "description": "ROLE_USER",
+              "example": "ROLE_USER"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "JWT": {
+        "type": "apiKey",
+        "description": "The activation token(JWT) can be taken along the path: User -> Get JWT of test user",
+        "name": "Access-Token",
+        "in": "header"
+      }
+    }
+  }
+}
